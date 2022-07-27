@@ -17,10 +17,10 @@ class Pesquisa():
     # Receber a autorização ou não para a pessoa ser entrevistada
     def querParticipar(self):
 
-        aceitar = input("Quer participar desta pesquisa rápida? S/N ")
+        aceitar = input("Quer participar desta pesquisa rápida? S/N : ")
 
         while aceitar.strip().upper() not in ["S", "N"]:
-            aceitar = input("Input invalido, quer participar desta pesquisa rápida? S/N ")
+            aceitar = input("Input invalido, quer participar desta pesquisa rápida? S/N : ")
 
         return True if aceitar.strip().upper() == "S" else False
 
@@ -34,10 +34,13 @@ class Pesquisa():
 
             if idade > 0:
                 nome = str(input("Informe o seu o nome: "))
+
+                while nome == "":
+                    nome = str(input("O campo nome não pode ser vazio, informe o seu o nome: "))
                 genero = self.getGenero()
 
             elif idade == 0:
-                print("Fim da pesquisa.")
+                print("Fim ! \nObrigado por participar da nossa pesquisa! ")
                 break
 
             for i in range(4):
@@ -79,11 +82,11 @@ class Pesquisa():
     # Recebendo os valores do gênero
     def getGenero(self):
         genero = input("Informe qual o genero que você se identifica: "
-                       "\n [F] Feminino\n [M] Masculino\n [T] Transgenero\n [NB] Nao-Binario\n [O] Outro\n")
+                       "\n [F] Feminino\n [M] Masculino\n [T] Transgenero\n [NB] Nao-Binario\n [O] Outro : \n")
 
         while genero.upper() not in ["F", "M", "T", "NB", "O"]:
             genero = input("Input invalido, informe novamente qual o genero que você se identifica: "
-                           "\n [F] Feminino\n [M] Masculino\n [T] Transgenero\n [NB] Nao-Binario\n [O] Outro\n")
+                           "\n [F] Feminino\n [M] Masculino\n [T] Transgenero\n [NB] Nao-Binario\n [O] Outro : \n")
 
         generoFormatado = self.formatarGenero(genero.upper())
         return generoFormatado
@@ -95,14 +98,14 @@ class Pesquisa():
                     "[1] - Sim\n"
                     "[2] - Não\n"
                     "[3] - Não sei responder\n"
-                    "Escolha uma das alternativas.")
+                    "Escolha uma das alternativas: ")
 
         while rsp not in ["1", "2", "3"]:
             rsp = input(f"Resposta invalida, tente novamente. {pergunta} \n"
                         "[1] - Sim\n"
                         "[2] - Não\n"
                         "[3] - Não sei responder\n"
-                        "Escolha uma das alternativas.")
+                        "Escolha uma das alternativas: ")
 
         respostaFormatada = self.formatarResposta(int(rsp))
         return respostaFormatada
