@@ -10,17 +10,19 @@ class Pesquisa():
 
         self.__pesquisaDF = pd.DataFrame(
             columns=["Nome", "Idade", "Genero", "Pergunta1", "Pergunta2", "Pergunta3", "Pergunta4", "Data"])
-        #Columns - são colunas estrutururais de dados primários em DataFrame no Pandas
+        # Columns - são colunas estrutururais de dados primários em DataFrame no Pandas
 
         self.nomeDoArquivo = nomeDoArquivo
 
-    # Receber a autorização ou não para a pessoa ser entrevistada
+    # Receber a autorização ou não para a pessoa ser entrevistada ------------------------------
     def querParticipar(self):
-
-        aceitar = input("Quer participar desta pesquisa rápida? S/N : ")
+        print('- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
+              '\n- - - - - -Olá, seja muito bem vindo a pesquisa do Squad 6- - - - - - -'
+              '\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -')
+        aceitar = input("Você deseja participar da pesquisa rápida? \nResponda com 'S' ou 'N' : ")
 
         while aceitar.strip().upper() not in ["S", "N"]:
-            aceitar = input("Input invalido, quer participar desta pesquisa rápida? S/N : ")
+            aceitar = input("Input invalido, quer participar desta pesquisa rápida? S/N ")
 
         return True if aceitar.strip().upper() == "S" else False
 
@@ -34,16 +36,14 @@ class Pesquisa():
 
             if idade > 0:
                 nome = str(input("Informe o seu o nome: "))
-
-                while nome == "":
-                    nome = str(input("O campo nome não pode ser vazio, informe o seu o nome: "))
                 genero = self.getGenero()
 
             elif idade == 0:
-                print("Fim ! \nObrigado por participar da nossa pesquisa! ")
+                print("Fim da pesquisa.")
                 break
 
             for i in range(4):
+                print('\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -')
                 rsp = self.getResposta(i)
                 respostaDict[f"Pergunta{i + 1}"] = rsp
 
@@ -52,7 +52,7 @@ class Pesquisa():
             respostaDict["Idade"] = idade
             respostaDict["Genero"] = genero
             respostaDict["Data"] = dataHoraCadastrada.strftime('%d/%m/%Y %H:%M:%S')
-            #strftime - retorna os objectos de data e hora para string
+            # strftime - retorna os objectos de data e hora para string
             respostaDF = pd.DataFrame([respostaDict])
 
             self.__pesquisaDF = pd.concat([self.__pesquisaDF, respostaDF], axis=0, ignore_index=True)
@@ -60,6 +60,9 @@ class Pesquisa():
         if len(self.__pesquisaDF.index) != 0:
             self.exportToCSV(self.nomeDoArquivo)
             print(f"Pesquisa salva no arquivo {self.nomeDoArquivo}")
+            print('\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -')
+            print('\n- - - - - - OBRIGADO(A) POR PARTICIPAR DA NOSSA PESQUISA  - - - - - - -')
+            print('\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -')
         else:
             print("Sem dados para serem salvos.")
 
@@ -73,6 +76,7 @@ class Pesquisa():
 
     # Recebendo os valores de idade
     def getIdade(self):
+        print('- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n')
         idade = input("Informe a sua idade: ")
 
         while not idade.isnumeric():
@@ -82,11 +86,13 @@ class Pesquisa():
     # Recebendo os valores do gênero
     def getGenero(self):
         genero = input("Informe qual o genero que você se identifica: "
-                       "\n [F] Feminino\n [M] Masculino\n [T] Transgenero\n [NB] Nao-Binario\n [O] Outro : \n")
+                       "\n[F] Feminino\n[M] Masculino\n[T] Transgenero\n[NB] Nao-Binario\n[O] Outro"
+                       "\nDigite uma das letras que estão entre [ ] como resposta : ")
 
         while genero.upper() not in ["F", "M", "T", "NB", "O"]:
             genero = input("Input invalido, informe novamente qual o genero que você se identifica: "
-                           "\n [F] Feminino\n [M] Masculino\n [T] Transgenero\n [NB] Nao-Binario\n [O] Outro : \n")
+                           "\n[F] Feminino\n[M] Masculino\n[T] Transgenero\n[NB] Nao-Binario\n[O] Outro\n"
+                           "\nDigite uma das letras que estão entre [ ] como resposta : ")
 
         generoFormatado = self.formatarGenero(genero.upper())
         return generoFormatado
@@ -98,14 +104,14 @@ class Pesquisa():
                     "[1] - Sim\n"
                     "[2] - Não\n"
                     "[3] - Não sei responder\n"
-                    "Escolha uma das alternativas: ")
+                    "Digite um dos números que estão entre [ ] como resposta : ")
 
         while rsp not in ["1", "2", "3"]:
             rsp = input(f"Resposta invalida, tente novamente. {pergunta} \n"
                         "[1] - Sim\n"
                         "[2] - Não\n"
                         "[3] - Não sei responder\n"
-                        "Escolha uma das alternativas: ")
+                        "Digite um dos números que estão entre [ ] como resposta : ")
 
         respostaFormatada = self.formatarResposta(int(rsp))
         return respostaFormatada
